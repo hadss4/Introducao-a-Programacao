@@ -71,16 +71,6 @@ int qtd_navio(int tam){
     }
 }
 
-int set(int tam, int tab[tam][tam]){
-    for(int i = 0; i < tam+1; i++){
-        for(int d = 0; d < tam+1; d++){
-            tab[i][d] = VAZIO;
-        }
-    }
-
-    return tab;
-}
-
 void tabuleiro(int tam){
     printf("\n");
     for(int i = 0; i < tam+1; i++){
@@ -103,53 +93,9 @@ void tabuleiro(int tam){
     }
 }
 
-int esconder(int tam, int nav){
-    tabuleiro(tam);
-    int tab[tam][tam];
-    int n[2];
-
-    printf("\nEscolha onde esconder seus navios:\n");
-
-    for(int i = 0; i < nav; i++){
-        printf("Linha: ");
-        scanf("%d", &n[0]);
-        printf("Coluna: ");
-        scanf("%d", &n[1]);
-        printf("\n");
-
-        n[0]--;
-        n[1]--;
-
-        tab[n[0]][n[1]] = NAVIO;
-    }
-
-    return tab;
-}
-
-int esconder2(int tam, int nav){
-    int random;
-
-    int tab[tam][tam];
-    int n[2];
-
-    for(int i = 0; i < nav; i++){
-        srand(time(NULL));
-        random = rand() % tam;
-        n[0] = random--;
-
-        srand(time(NULL));
-        random = rand() % tam;
-        n[1] = random--;
-
-        tab[n[0]][n[1]] = NAVIO;
-    }
-
-    return tab;
-}
-
 int main(){
     int x[2];
-    x[0] = tamanho(); // arrumar esse erro depois
+    x[0] = tamanho();
 
     system("cls");
 
@@ -209,12 +155,35 @@ int main(){
         tab2[n[0]][n[1]] = NAVIO;
     }
 
-    header();
-    printf("Sua vez!");
-
     // JOGO
     while(p1 < x[1] && p2 < x[1]){
-        tabuleiro(x[0]);
+        header();
+        printf("Sua vez!");
+
+        printf("\n");
+        for(int i = 0; i < x[0]+1; i++){
+            for(int d = 0; d < x[0]+1; d++){
+                if (i == 0){
+                    if(d == 0){
+                        printf("   ");
+                    }else{
+                        printf(" %-3d  ", d);
+                    }
+                }else{
+                    if(d == 0){
+                        printf("%-3d",i);
+                    }else{
+                        if (tab2[i][d] == VAZIOAT){
+                            printf("[ X ] ");
+                        }else if (tab2[i][d] == NAVIOAT){
+                            printf("[ 0 ] ");
+                        }else
+                            printf("[   ] ");
+                        }
+                    }
+                }
+                printf("\n");
+            }
 
         printf("\nLinha: ");
         scanf("%d", &n[0]);
@@ -253,8 +222,12 @@ int main(){
             printf("Poxa! O Computador acertou um navio...\n");
         }
 
-        printf("\nSua vez!");
+        printf("\n----------------------------------");
+        printf("\nVoce: %d/%d\nComputador: %d/%d\n", p1, x[1], p2, x[1]);
+
+        sleep(2);
     }
+
 
     printf("\n----------------------------------------------------------------\n");
 
