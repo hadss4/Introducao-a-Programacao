@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-start(){
+void start(){
     int opcao;
     printf("-----------------------\n");
     printf("\tPokedex\n");
@@ -17,7 +18,7 @@ int main(){
     FILE * file;
     int opcao = 0;
 
-    char nomeP[20], tipoP[50];
+    char nomeP[30], tipoP[50];
     int numP;
 
     do{
@@ -27,8 +28,22 @@ int main(){
         if(opcao == 1){
             printf("Informe:\nNome: ");
             scanf("%s", nomeP);
+            printf("Numero: ");
+            scanf("%d", &numP);
+            printf("Tipagem: ");
+            scanf("%s", tipoP);
+
+            file = fopen("ListaPokemons.txt","a");
+            fprintf(file, "%s\n", nomeP);
+            fclose(file);
+
+            char arq[30] = strdup(nomeP);
+            strcat(arq, ".txt");
+            file = fopen(arq, "w");
+            fprintf("\n%s\n%04d\n%s\n", nomeP, numP, tipoP);
+            fclose(file);
         }
-    }while(opcao < 4)
+    }while(opcao < 4);
 
     return 0;
 }
